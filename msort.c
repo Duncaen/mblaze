@@ -299,6 +299,13 @@ main(int argc, char *argv[])
 {
 	int c, i;
 
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "fdsFMSUIr")) != -1)
 		switch(c) {
 		case 'f': addorder(fromorder); break;

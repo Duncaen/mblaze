@@ -33,6 +33,13 @@ int main()
 	char hostbuf[1024];
 	char *host = 0;
 
+#ifdef __OpenBSD__
+	if (pledge("stdio unix", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	char *f = blaze822_home_file("profile");
 	struct message *config = blaze822(f);
 

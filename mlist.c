@@ -223,6 +223,14 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+#ifdef __OpenBSD__
+	if (pledge("stdio rpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "PRSTDFprstdfX:x:NnCci")) != -1)
 		switch(c) {
 		case 'P': case 'R': case 'S': case 'T': case 'D': case 'F':

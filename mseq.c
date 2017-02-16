@@ -275,6 +275,14 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+#ifdef __OpenBSD__
+	if (pledge("stdio cpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "c:frAC:S")) != -1)
 		switch(c) {
 		case 'c': cflag = optarg; break;
@@ -293,6 +301,13 @@ main(int argc, char *argv[])
 			);
 			exit(1);
 		}
+
+#ifdef __OpenBSD__
+	if (!(Cflag || Sflag) && (pledge("stdio", 0) == -1)) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
 
 	if (cflag)
 		blaze822_loop1(cflag, overridecur);

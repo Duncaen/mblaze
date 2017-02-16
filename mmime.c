@@ -468,6 +468,13 @@ main(int argc, char *argv[])
 {
 	srand48(time(0) ^ getpid());
 
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	int c;
 	while ((c = getopt(argc, argv, "crt:")) != -1)
 		switch(c) {

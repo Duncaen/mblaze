@@ -400,14 +400,21 @@ main(int argc, char *argv[])
 
 	optional = 1;
 
- 	while ((c = getopt(argc, argv, "S:v")) != -1)
- 		switch(c) {
- 		case 'S': blaze822_loop1(optarg, thread); break;
- 		case 'v': vflag = 1; break;
- 		default:
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
+	while ((c = getopt(argc, argv, "S:v")) != -1)
+		switch(c) {
+		case 'S': blaze822_loop1(optarg, thread); break;
+		case 'v': vflag = 1; break;
+		default:
 			fprintf(stderr, "Usage: mthread [-v] [-S dir] [msgs...]\n");
- 			exit(1);
- 		}
+			exit(1);
+		}
 
 	optional = 0;
 

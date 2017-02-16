@@ -299,6 +299,14 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "")) != -1)
 		switch(c) {
 		default:

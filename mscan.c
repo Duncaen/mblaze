@@ -491,6 +491,14 @@ main(int argc, char *argv[])
 	pid_t pid1 = -1;
 
 	int c;
+
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "If:n")) != -1)
 		switch(c) {
 		case 'I': Iflag++; break;

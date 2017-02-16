@@ -726,6 +726,13 @@ main(int argc, char *argv[])
 {
 	pid_t pid1 = -1, pid2 = -1;
 
+#ifdef __OpenBSD__
+	if (pledge("stdio cpath exec", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	int c;
 	while ((c = getopt(argc, argv, "h:A:qrtHLNx:O:Rn")) != -1)
 		switch(c) {
