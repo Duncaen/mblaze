@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 #define uc(c) ((c) & 0xdf)
 
@@ -109,6 +110,12 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+	if (pledge("stdio cpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "PRSTDFprstdfX:x:v")) != -1)
 		switch(c) {
 		case 'P': case 'R': case 'S': case 'T': case 'D': case 'F':

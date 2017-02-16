@@ -18,6 +18,7 @@
 #include <locale.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int cols;
 static wchar_t replacement = L'?';
@@ -482,6 +483,12 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "If:n")) != -1)
 		switch(c) {
 		case 'I': Iflag++; break;

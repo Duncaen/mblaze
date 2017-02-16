@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int cflag;
 static int rflag;
@@ -366,6 +367,11 @@ int
 main(int argc, char *argv[])
 {
 	srand48(time(0) ^ getpid());
+
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
 
 	int c;
 	while ((c = getopt(argc, argv, "cr")) != -1)

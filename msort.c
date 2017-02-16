@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 struct mail {
 	char *file;
@@ -298,6 +299,11 @@ int
 main(int argc, char *argv[])
 {
 	int c, i;
+
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
 
 	while ((c = getopt(argc, argv, "fdsFMSUIr")) != -1)
 		switch(c) {

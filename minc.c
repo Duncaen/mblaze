@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int qflag;
 static int status;
@@ -62,6 +63,12 @@ int
 main(int argc, char *argv[])
 {
 	int c, i;
+
+	if (pledge("stdio cpath rpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "q")) != -1)
 		switch(c) {
 		case 'q': qflag = 1; break;

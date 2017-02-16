@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "pledge.h"
+
 void
 pwd()
 {
@@ -70,6 +72,12 @@ int
 main(int argc, char *argv[])
 {
 	int c, i;
+
+	if (pledge("stdio rpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "")) != -1)
 		switch(c) {
 		default:

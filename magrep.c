@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int aflag;
 static int cflag;
@@ -165,6 +166,12 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+
 	while ((c = getopt(argc, argv, "acdim:opqv")) != -1)
 		switch(c) {
 		case 'a': aflag = 1; break;

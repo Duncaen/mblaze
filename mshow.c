@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int rflag;
 static int Rflag;
@@ -689,6 +690,15 @@ int
 main(int argc, char *argv[])
 {
 	int c;
+
+#if 0
+	/* not good on linux, exec for filters... */
+	if (pledge("stdio cpath", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
+
 	while ((c = getopt(argc, argv, "h:A:qrtHLx:O:Rn")) != -1)
 		switch(c) {
 		case 'h': hflag = optarg; break;

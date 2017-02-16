@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 void
 printb36(uint64_t x)
@@ -30,6 +31,11 @@ int main()
 {
 	char hostbuf[1024];
 	char *host = 0;
+
+	if (pledge("stdio unix", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
 
 	char *f = blaze822_home_file("profile");
 	struct message *config = blaze822(f);

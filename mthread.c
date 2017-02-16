@@ -19,6 +19,7 @@
 #include <unistd.h>
 
 #include "blaze822.h"
+#include "pledge.h"
 
 static int vflag;
 
@@ -365,6 +366,11 @@ int
 main(int argc, char *argv[])
 {
 	int c, i;
+
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
 
  	while ((c = getopt(argc, argv, "v")) != -1)
  		switch(c) {
