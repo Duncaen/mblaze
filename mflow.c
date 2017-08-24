@@ -95,7 +95,7 @@ int
 main()
 {
 	char *linebuf = 0;
-	c ttyhar *line;
+	char *line;
 	size_t linelen = 0;
 	int quotes = 0;
 
