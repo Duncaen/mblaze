@@ -1,12 +1,18 @@
 #!/bin/sh -e
 cd ${0%/*}
 . ./lib.sh
-plan 4
+plan 5
 
 cat <<EOF >tmp
 References: <aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@a> <bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb@b> <ccccccccccccccccccccccccccccccc@c>
 
 Body
+EOF
+
+cat <<EOF >tmp1
+From: foo@bar.com
+
+#application/pdf ../../mshow
 EOF
 
 # https://github.com/chneukirchen/mblaze/issues/20
@@ -15,3 +21,4 @@ check 'mime -r runs' 'mmime -r <tmp >tmp2'
 check 'no overlong lines' 'awk "{if(length(\$0)>=80)exit 1}" <tmp2'
 check 'no QP when unecessary' ! grep -qF "=?" tmp2
 check 'no further mime necessary' 'mmime -c <tmp2'
+check 'mmime attachment' 'mmime -c <tmp1'
