@@ -493,7 +493,7 @@ main(int argc, char *argv[])
 	int c;
 
 #ifdef __OpenBSD__
-	if (pledge("rpath stdio", 0) == -1) {
+	if (pledge("rpath stdio tty", 0) == -1) {
 		fprintf(stderr, "error: pledge\n");
 		exit(1);
 	}
@@ -541,6 +541,12 @@ main(int argc, char *argv[])
 				    pg, strerror(errno));
 		}
 	}
+#ifdef __OpenBSD__
+	if (pledge("rpath stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
 	if (getenv("COLUMNS"))
 		cols = atoi(getenv("COLUMNS"));
 	if (cols <= 40)

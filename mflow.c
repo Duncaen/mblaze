@@ -95,12 +95,19 @@ int
 main()
 {
 	char *linebuf = 0;
-	char *line;
+	c ttyhar *line;
 	size_t linelen = 0;
 	int quotes = 0;
 
 	int reflow = 1;  // re-evaluated on $PIPE_CONTENTTYPE
 	int delsp = 0;
+
+#ifdef __OpenBSD__
+	if (pledge("stdio tty", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
 
 	char *ct = getenv("PIPE_CONTENTTYPE");
 	if (ct) {
@@ -123,6 +130,13 @@ main()
 			close(fd);
 		}
 	}
+
+#ifdef __OpenBSD__
+	if (pledge("stdio", 0) == -1) {
+		fprintf(stderr, "error: pledge\n");
+		exit(1);
+	}
+#endif
 
 	char *maxcols = getenv("MAXCOLUMNS");
 	if (maxcols && isdigit(*maxcols)) {
