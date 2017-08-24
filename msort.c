@@ -300,7 +300,7 @@ main(int argc, char *argv[])
 	int c, i;
 
 #ifdef __OpenBSD__
-	if (pledge("stdio", 0) == -1) {
+	if (pledge("rpath stdio", 0) == -1) {
 		fprintf(stderr, "error: pledge\n");
 		exit(1);
 	}

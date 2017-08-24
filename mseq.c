@@ -277,7 +277,7 @@ main(int argc, char *argv[])
 	int c;
 
 #ifdef __OpenBSD__
-	if (pledge("stdio cpath", 0) == -1) {
+	if (pledge("cpath rpath stdio", 0) == -1) {
 		fprintf(stderr, "error: pledge\n");
 		exit(1);
 	}
@@ -303,7 +303,7 @@ main(int argc, char *argv[])
 		}
 
 #ifdef __OpenBSD__
-	if (!(Cflag || Sflag) && (pledge("stdio", 0) == -1)) {
+	if (!(Cflag || Sflag) && (pledge("rpath stdio", 0) == -1)) {
 		fprintf(stderr, "error: pledge\n");
 		exit(1);
 	}

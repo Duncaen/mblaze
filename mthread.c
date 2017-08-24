@@ -401,7 +401,7 @@ main(int argc, char *argv[])
 	optional = 1;
 
 #ifdef __OpenBSD__
-	if (pledge("stdio", 0) == -1) {
+	if (pledge("rpath stdio", 0) == -1) {
 		fprintf(stderr, "error: pledge\n");
 		exit(1);
 	}
