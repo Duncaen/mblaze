@@ -36,6 +36,15 @@ mscan : pipeto.o
 mmime : slurp.o
 minc mlist : squeeze_slash.o
 
+AFL = afl-addr afl-date afl-mime afl-mime-param afl-rfc2047
+afl: $(AFL)
+$(AFL) : % : %.o
+afl-addr : blaze822.o slurp.o mymemmem.o mytimegm.o
+afl-date : blaze822.o slurp.o mymemmem.o mytimegm.o
+afl-mime : blaze822.o rfc2045.o rfc2047.o slurp.o mymemmem.o mytimegm.o
+afl-mime-param : blaze822.o rfc2045.o rfc2047.o slurp.o mymemmem.o mytimegm.o
+afl-rfc2047 : rfc2047.o slurp.o
+
 museragent: FRC
 	@test -n "$$SOURCE_DATE_EPOCH" || BUILDDATE=$$(date '+ (%Y-%m-%d)'); \
 		printf '#!/bin/sh\nprintf "User-Agent: mblaze/%s%s\\n"\n' \

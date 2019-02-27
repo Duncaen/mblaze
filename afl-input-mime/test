@@ -1,0 +1,14 @@
+hello: world
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----_=_75b3abb634e4c09c41286a3a_=_"
+
+This is a multipart message in MIME format.
+
+------_=_75b3abb634e4c09c41286a3a_=_
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+fizz
+
+------_=_75b3abb634e4c09c41286a3a_=_--
